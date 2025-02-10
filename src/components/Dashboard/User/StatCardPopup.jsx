@@ -36,9 +36,27 @@ export const StatCardPopup = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-6">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      sx={{
+        '& .MuiDialog-paper': {
+          display: 'flex',              // Use flexbox to center the content
+          flexDirection: 'column',      // Stack the content vertically
+          justifyContent: 'center',     // Center content vertically
+          alignItems: 'center',         // Center content horizontally
+          width: '90vw',                // Width is 90% of the viewport width
+          maxWidth: '1000px',           // Optional: Limit the max width
+          height: 'auto',               // Auto height to fit content
+          maxHeight: '90vh',            // Optional: Limit the max height
+          overflow: 'hidden',           // Prevent scrolling
+        },
+      }}
+    >
+      <div className="p-6 w-full">
+        <div className="flex justify-between items-start mb-6 w-full">
           <div>
             <h2 className="text-xl font-semibold">{title}</h2>
             <p className="text-gray-500 text-sm">{subtitle}</p>
@@ -51,13 +69,13 @@ export const StatCardPopup = ({
           </button>
         </div>
 
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           <div className="text-sm text-gray-600 mb-2">Current Value</div>
           <div className="text-3xl font-bold">{value}</div>
         </div>
 
         {chartData && (
-          <div className="h-64">
+          <div className="w-full flex justify-center items-center h-64">
             <Line options={options} data={data} />
           </div>
         )}
