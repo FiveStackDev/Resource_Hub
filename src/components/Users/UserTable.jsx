@@ -26,14 +26,25 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortColumn, setSortColumn] = useState("email");
 
+  // Function to handle "Select All" functionality, limited to current page
   const handleSelectAll = (event) => {
+    const currentPageUserIds = sortedUsers
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((user) => user.id);
+
     if (event.target.checked) {
-      setSelected(users.map((user) => user.id));
+      setSelected((prevSelected) => [
+        ...prevSelected,
+        ...currentPageUserIds.filter((id) => !prevSelected.includes(id)),
+      ]);
     } else {
-      setSelected([]);
+      setSelected((prevSelected) =>
+        prevSelected.filter((id) => !currentPageUserIds.includes(id))
+      );
     }
   };
 
+  // Function to handle individual user selection
   const handleSelect = (id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -47,12 +58,14 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
     setSelected(newSelected);
   };
 
+  // Function to handle deleting selected users
   const handleDelete = () => {
     onDeleteUsers(selected);
     setSelected([]);
     setIsDeleteDialogOpen(false);
   };
 
+  // Function to handle sorting columns
   const handleSort = (column) => {
     const isSameColumn = column === sortColumn;
     const newSortDirection = isSameColumn && sortDirection === "asc" ? "desc" : "asc";
@@ -61,6 +74,7 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
     setSortDirection(newSortDirection);
   };
 
+  // Sorting users based on selected column and direction
   const sortedUsers = [...users].sort((a, b) => {
     const aValue = a[sortColumn];
     const bValue = b[sortColumn];
@@ -79,8 +93,19 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
               <TableRow style={{ backgroundColor: "#e0e0e0", color: "#333" }}>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={users.length > 0 && selected.length === users.length}
-                    indeterminate={selected.length > 0 && selected.length < users.length}
+                    checked={
+                      sortedUsers
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .every((user) => selected.includes(user.id))
+                    }
+                    indeterminate={
+                      sortedUsers
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .some((user) => selected.includes(user.id)) &&
+                      !sortedUsers
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .every((user) => selected.includes(user.id))
+                    }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
@@ -135,10 +160,11 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                     </TableCell>
                     <TableCell>
                       <span
-                        className={`px-2 py-1 rounded-full text-sm ${user.userType === "Admin"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-gray-100 text-gray-800"
-                          }`}
+                        className={`px-2 py-1 rounded-full text-sm ${
+                          user.userType === "Admin"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
                       >
                         {user.userType}
                       </span>
