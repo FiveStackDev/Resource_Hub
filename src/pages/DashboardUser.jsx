@@ -22,7 +22,7 @@ const recentActivities = [
   { date: '2024-02-18', action: 'Booked lunch meal' },
 ];
 
-function UserDashboard() {
+function DashboardUser() {
   const monthLabels = getMonthLabels();
 
   return (
@@ -67,4 +67,4 @@ function UserDashboard() {
   );
 };
 
-export default UserDashboard;
+export default DashboardUser;

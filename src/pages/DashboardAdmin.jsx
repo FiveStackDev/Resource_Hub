@@ -1,12 +1,26 @@
+import { Users, Utensils, Box, Wrench } from 'lucide-react';
 import { StatCard } from '../components/Dashboard/Admin/StatCard';
 import { ResourceCard } from '../components/Dashboard/Admin/ResourceCard';
 import { MealDistributionChart } from '../components/Dashboard/Admin/MealDistributionChart';
 import { ResourceAllocation } from '../components/Dashboard/Admin/ResourceAllocation';
-import { Users, Utensils, Box, Wrench } from 'lucide-react';
 
-const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+
+const getMonthLabels = () => {
+  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const currentMonth = new Date().getMonth(); // Get the current month index (0 for Jan, 11 for Dec)
+  
+  // Reorder the month labels so the current month is first
+  const reorderedLabels = [
+    ...monthLabels.slice(currentMonth),
+    ...monthLabels.slice(0, currentMonth),
+  ];
+
+  return reorderedLabels;
+};
 
 function Dashboard() {
+  const monthLabels = getMonthLabels();
+
   return (
     <div className="min-h-screen space-y-6 p-6">
       {/* Heading */}
@@ -20,7 +34,7 @@ function Dashboard() {
           icon={<Users className="text-blue-500" />}
           chartData={{
             labels: monthLabels,
-            data: [420, 435, 440, 448, 452],
+            data: [420, 435, 440, 448, 452, 450, 445, 440, 435, 430, 425, 420],
           }}
         />
         <StatCard
@@ -29,7 +43,7 @@ function Dashboard() {
           icon={<Utensils className="text-green-500" />}
           chartData={{
             labels: monthLabels,
-            data: [380, 410, 425, 440, 460],
+            data: [380, 410, 425, 440, 460, 450, 440, 430, 420, 410, 400, 390],
           }}
         />
         <StatCard
@@ -38,7 +52,7 @@ function Dashboard() {
           icon={<Box className="text-yellow-500" />}
           chartData={{
             labels: monthLabels,
-            data: [25, 28, 32, 35, 30],
+            data: [25, 28, 32, 35, 30, 28, 27, 30, 32, 35, 30, 28],
           }}
         />
         <StatCard
@@ -47,7 +61,7 @@ function Dashboard() {
           icon={<Wrench className="text-red-500" />}
           chartData={{
             labels: monthLabels,
-            data: [8, 12, 15, 11, 10],
+            data: [8, 12, 15, 11, 10, 9, 10, 11, 12, 13, 14, 10],
           }}
         />
       </div>

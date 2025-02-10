@@ -23,7 +23,7 @@ function Slidebar() {
         <div className='slidebar'>
             <ul>
                 <li>
-                    <Link to={'admin/Dashboard'}>
+                    <Link to={'user/DashboardUser'}>
                         <Button className='w-100'>
                             <span className='icon'><MdSpaceDashboard /></span>
                             Dashboard
@@ -41,9 +41,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 1 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="admin/MealCalander">Meal Calander</Link></li>
-                            <li><Link to="admin/AddMealTime">Add Meal Time</Link></li>
-                            <li><Link to="admin/AddMealType">Add Meal Type</Link></li>
+                            <li><Link to="user/MealCalander">Meal Calander</Link></li>
                         </ul>
                     </div>
                 </li>
@@ -87,22 +85,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 4 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="admin/users">User list</Link></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <Button 
-                        className={`w-100 ${activeTab === 5 ? 'active' : ''}`} 
-                        onClick={() => isOpenSubMenu(5)}>
-                        <span className='icon'><IoDocumentsSharp /></span>
-                        Reports
-                        <span className='arrow'><IoIosArrowForward /></span>
-                    </Button>
-                    <div className={`submenuWrapper ${activeTab === 5 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
-                        <ul className="submenu">
-                            <li><Link to="#">product list</Link></li>
-                            <li><Link to="#">product list</Link></li>
+                            <li><Link to="user/users">User list</Link></li>
                         </ul>
                     </div>
                 </li>

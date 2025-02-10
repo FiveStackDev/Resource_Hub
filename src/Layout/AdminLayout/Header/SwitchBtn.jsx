@@ -12,8 +12,8 @@ function SwitchBtn(){
           <FormControlLabel
           sx={{color:'white'}}
             value="bottom"
-            control={<Link to={"admin/dashboard"}><Switch color="primary" /></Link>}
-            label="User"
+            control={<Link to={"user/DashboardUser"}><Switch color="primary" checked='true'/></Link>}
+            label="Admin"
             labelPlacement="bottom"
           />
         </FormGroup>
