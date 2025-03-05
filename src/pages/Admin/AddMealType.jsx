@@ -34,7 +34,7 @@ function AddMealType() {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtype');
+      const response = await fetch('http://localhost:9090/mealtype/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }

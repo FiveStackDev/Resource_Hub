@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout/Layout";
 import UserLayout from "./Layout/UserLayout/Layout";
+import AdminUserLayout from "./Layout/AdminUserLayout/Layout";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import DashboardUser from "./pages/User/DashboardUser";
 import MealCalander from "./pages/User/MealCalander";
@@ -16,17 +17,17 @@ import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
 import AssetRequestUsers from "./pages/User/AssetRequestUsers";
 
-
-const PrivateRoute = ({ element, allowedRole }) => {
+// PrivateRoute to protect routes
+const PrivateRoute = ({ element, allowedRoles }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   const userRole = localStorage.getItem("userRole");
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+  if (!isAuthenticated || !userRole) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (allowedRole && userRole !== allowedRole) {
-    return <Navigate to={`/${userRole}-Dashboard${userRole.charAt(0).toUpperCase() + userRole.slice(1)}`} />;
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return <Navigate to={`/${userRole}-dashboard${userRole.charAt(0).toUpperCase() + userRole.slice(1)}`} />;
   }
 
   return element;
@@ -38,26 +39,37 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route path="/" element={<PrivateRoute element={<AdminLayout />} allowedRole="admin" />}>
+        {/* Admin Routes */}
+        <Route path="/" element={<PrivateRoute element={<AdminLayout />} allowedRoles={["admin"]} />}>
           <Route index element={<DashboardAdmin />} />
-          <Route path="admin-DashboardAdmin" element={<DashboardAdmin />} />
-          <Route path="admin-DashboardUser" element={<DashboardUser />} />
-          <Route path="admin-mealcalander" element={<MealCalander />} />
+          <Route path="admin-dashboardadmin" element={<DashboardAdmin />} />
           <Route path="admin-addmealtime" element={<AddMealTime />} />
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
           <Route path="admin-asset" element={<AssetAdmin />} />
-          <Route path="Admin-AssetMonitoring" element={<AssetMonitoringAdmin/>} />
-          <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
-          <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
+          <Route path="admin-assetmonitoring" element={<AssetMonitoringAdmin />} />
+          <Route path="admin-maintenanceHome" element={<MaintenanceHome />} />
+          <Route path="admin-maintenanceDetails" element={<MaintenanceDetails />} />
         </Route>
 
-        <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>
+        {/*Admin User Routes* */}
+        <Route path="/" element={<PrivateRoute element={<AdminUserLayout />} allowedRoles={["admin"]} />}>
           <Route index element={<DashboardUser />} />
-          <Route path="user-DashboardUser" element={<DashboardUser />} />
+          <Route path="adminuser-dashboarduser" element={<DashboardUser />} />
+          <Route path="adminuser-mealcalander" element={<MealCalander />} />
+          <Route path="adminuser-assetrequest" element={<AssetRequestUsers />} />
+        </Route>
+
+        {/* User Routes */}
+        <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user"]} />}>
+          <Route index element={<DashboardUser />} />
+          <Route path="user-dashboarduser" element={<DashboardUser />} />
           <Route path="user-mealcalander" element={<MealCalander />} />
           <Route path="user-assetrequest" element={<AssetRequestUsers />} />
         </Route>
+
+        {/* Redirect unknown routes to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

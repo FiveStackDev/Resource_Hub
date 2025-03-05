@@ -85,3 +85,8 @@ button[type="submit"] {
   border-radius: 7px;
 }
 
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}

@@ -7,13 +7,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-// Importing icons
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-// Import the useNavigate hook
 import { useNavigate } from 'react-router-dom';
 
 const settings = [
@@ -35,12 +31,15 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    navigate('/login');  
-    handleCloseMenu();  
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("Email");
+    localStorage.removeItem("Username");
+    navigate("/login");
+    handleCloseMenu();
   };
 
-  const name = "Jhon Doe";
-  const email = "jhondoe@gamil.com";
 
   return (
     <Box sx={{
@@ -59,8 +58,8 @@ function Profile() {
             width:'50px'
           }} alt="User Avatar" src="https://media.istockphoto.com/id/1309328823/photo/headshot-portrait-of-smiling-male-employee-in-office.jpg?s=612x612&w=0&k=20&c=kPvoBm6qCYzQXMAn9JUtqLREXe9-PlZyMl9i-ibaVuY=" />
           <Box sx={{ ml: 1, textAlign: 'left' }}>
-            <Typography sx={{ fontSize: '14px', color: 'rgb(255,255,255)', fontWeight: 'bold' }}>{name}</Typography>
-            <Typography sx={{ fontSize: '12px', color: 'rgb(255,255,255,0.6)' }}>{email}</Typography>
+            <Typography sx={{ fontSize: '14px', color: 'rgb(255,255,255)', fontWeight: 'bold' }}>{localStorage.getItem("Username")}</Typography>
+            <Typography sx={{ fontSize: '12px', color: 'rgb(255,255,255,0.6)' }}>{localStorage.getItem("Email")}</Typography>
           </Box>
           <ArrowDropDownIcon 
             sx={{ color: '#ffffff', fontSize: '40px', cursor: 'pointer' }} 

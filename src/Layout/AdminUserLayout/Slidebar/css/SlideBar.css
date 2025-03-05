@@ -1,0 +1,158 @@
+.slidebar {
+    background-color: #F5F6FA;
+    height: 91vh;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    padding: 10px;
+    position: fixed;
+    z-index: 90;
+}
+
+.slidebar ul {
+    padding: 10px 5px;
+    background-color: #0B1649;
+    border-radius: 10px;
+    flex-grow: 1;
+    margin: 0;
+}
+
+.slidebar ul li {
+    list-style: none;
+    padding-bottom: 15px;
+}
+
+.slidebar ul li button {
+    color: white;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 5px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+}
+
+.slidebar ul li button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 25px;
+}
+
+.slidebar ul li button.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.slidebar ul li button .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.slidebar ul li button .icon svg {
+    color: rgb(255, 255, 255);
+    opacity: 0.8;
+    font-size: 20px;
+}
+
+.slidebar ul li button .arrow {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.slidebar a {
+    text-decoration: none;
+}
+
+.settings-button {
+    width: 100%;
+    background-color: #0B1649;
+    color: white;
+    padding: 18px 12px 18px 12px;
+    margin-top:20px ;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s ease;
+}
+
+.settings-button:hover {
+    background-color: #162A6E;
+}
+.slidebar ul li a {
+    color: inherit; 
+}
+
+.slidebar ul .submenu {
+    padding-left: 10px;
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+.slidebar ul .submenu li {
+    width: 100%;
+    list-style: none;
+    border-left: 1px solid rgb(146, 145, 145);
+    padding-left: 20px;
+    margin-bottom: 5px;
+}
+
+.slidebar ul .submenu li a {
+    text-decoration: none;
+    color: #ddddff;
+    display: block;
+    padding: 0px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.slidebar ul .submenu li a:hover {
+    color: rgb(167, 167, 167);
+}
+
+.slidebar ul .submenuWrapper.collapsed {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 30px;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.slidebar ul .submenuWrapper.collapsed.show {
+    max-height: 500px;
+    opacity: 1;
+    padding: 10px 30px;
+}
+
+@media (max-width: 768px) {
+    .slidebar {
+        width: 200px;
+    }
+
+    .slidebar ul li {
+        padding-bottom: 10px;
+    }
+
+    .slidebar ul li button {
+        padding: 12px 10px;
+    }
+
+    .settings-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

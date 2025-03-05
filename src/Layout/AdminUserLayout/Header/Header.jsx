@@ -33,7 +33,7 @@ function Header() {
             </div>
 
             <div className="col-sm-1" > 
-              
+              <SwitchBtn/>
             </div>
 
             <div className="col-sm-1" > 

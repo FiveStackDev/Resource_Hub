@@ -1,0 +1,27 @@
+
+.main {
+    display: flex;
+    padding-top: 80px; 
+  }
+.main .slidebarWrapper {
+    width: 250px;
+    flex: 0 0 250px;
+    position: fixed;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    background: #ffffff;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+    border-right: 1px solid #ddd; 
+  }
+  
+
+  .main .content {
+    flex-grow: 1;
+    padding: 20px;
+    padding-top: 20px;
+    margin-left: 250px; 
+    min-height: calc(100vh - 80px);
+  }
+  
