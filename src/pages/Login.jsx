@@ -32,6 +32,7 @@ function Login() {
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("Email", data.email);
       localStorage.setItem("Username", data.username);
+      localStorage.setItem("Userid", data.id);
 
       // Redirect based on user role
       navigate(data.usertype === "admin" ? "/admin-dashboardadmin" : "/user-dashboarduser");

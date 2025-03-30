@@ -12,7 +12,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtime');
+      const response = await fetch('http://localhost:9090/mealtime/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }

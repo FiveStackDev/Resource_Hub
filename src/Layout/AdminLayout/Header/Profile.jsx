@@ -36,6 +36,7 @@ function Profile() {
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("Email");
     localStorage.removeItem("Username");
+    localStorage.removeItem("Userid");
     navigate("/login");
     handleCloseMenu();
   };

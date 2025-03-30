@@ -15,13 +15,15 @@ function MealCalendar() {
   const [eventData, setEventData] = useState([]);
   const today = new Date().toISOString().split("T")[0];
 
+
   useEffect(() => {
     fetchEvents();
   }, []);
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/mealevents");
+      const userId = localStorage.getItem('Userid');
+      const response = await axios.get(`http://localhost:9090/calander/mealevents/${userId}`);
       const formattedEvents = response.data.map(event => ({
         id: event.id,
         title: `${event.meal_time} - ${event.meal_type}`,
@@ -49,10 +51,11 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTime, mealType) => {
     try {
-      const response = await axios.post("http://localhost:9090/mealevents/add", {
+      const response = await axios.post("http://localhost:9090/calander/mealevents/add", {
         meal_time: mealTime,
         meal_type: mealType,
-        user_id: 1,
+        user_id: parseInt(localStorage.getItem("Userid")),
+        username: localStorage.getItem("Username"),
         submitted_date: today,
         meal_request_date: selectedDate
       });
@@ -91,7 +94,7 @@ function MealCalendar() {
   };
 
   const isMealSelected = (mealTime) => {
-    return eventData.some(event => 
+    return eventData.some(event =>
       event.start === selectedDate && event.title.includes(mealTime)
     );
   };

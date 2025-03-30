@@ -23,7 +23,7 @@ function Slidebar() {
         <div className='slidebar'>
             <ul>
                 <li>
-                    <Link to={'Admin-DashboardAdmin'}>
+                    <Link to={'User-DashboardUser'}>
                         <Button className='w-100'>
                             <span className='icon'><MdSpaceDashboard /></span>
                             Dashboard
@@ -41,8 +41,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 1 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="Admin-AddMealTime">Add Meal Time</Link></li>
-                            <li><Link to="Admin-AddMealType">Add Meal Type</Link></li>
+                            <li><Link to="adminUser-MealCalander">Meal Calander</Link></li>
                         </ul>
                     </div>
                 </li>
@@ -56,9 +55,8 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 2 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="/Admin-Asset">Asset_Home</Link></li>
-                            <li><Link to="/Admin-AssetMonitoring">Asset_Monitoring</Link></li>
-                            
+                            <li><Link to="User-AssetRequest">User_Requests</Link></li>
+                            <li><Link to="#">product list</Link></li>
                         </ul>
                     </div>
                 </li>
@@ -67,12 +65,13 @@ function Slidebar() {
                         className={`w-100 ${activeTab === 3 ? 'active' : ''}`} 
                         onClick={() => isOpenSubMenu(3)}>
                         <span className='icon'><FaTools /></span>
-                        <Link to="Admin-maintenanceHome">Maintenance</Link>
+                        Maintenance
                         <span className='arrow'><IoIosArrowForward /></span>
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 3 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                        <li><Link to="Admin-maintenanceDetails">Maintenance</Link></li>
+                            <li><Link to="#">product list</Link></li>
+                            <li><Link to="#">product list</Link></li>
                         </ul>
                     </div>
                 </li>
@@ -86,22 +85,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 4 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="Admin-users">User list</Link></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <Button 
-                        className={`w-100 ${activeTab === 5 ? 'active' : ''}`} 
-                        onClick={() => isOpenSubMenu(5)}>
-                        <span className='icon'><IoDocumentsSharp /></span>
-                        Reports
-                        <span className='arrow'><IoIosArrowForward /></span>
-                    </Button>
-                    <div className={`submenuWrapper ${activeTab === 5 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
-                        <ul className="submenu">
-                            <li><Link to="#">product list</Link></li>
-                            <li><Link to="#">product list</Link></li>
+                            <li><Link to="User-users">User list</Link></li>
                         </ul>
                     </div>
                 </li>
