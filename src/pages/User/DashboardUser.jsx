@@ -2,6 +2,8 @@ import { Utensils, Box, Wrench } from 'lucide-react';
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const getMonthLabels = () => {
   const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -16,13 +18,26 @@ const getMonthLabels = () => {
   return reorderedLabels;
 };
 
-const recentActivities = [
-  { date: '2024-02-20', action: 'Requested maintenance for laptop' },
-  { date: '2024-02-19', action: 'Checked out office supplies' },
-  { date: '2024-02-18', action: 'Booked lunch meal' },
-];
-
 function DashboardUser() {
+  const [stats, setStats] = useState({ mealsToday: 0, assets: 0, maintenanceRequests: 0 });
+  const [recentActivities, setRecentActivities] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const statsResponse = await axios.get('http://localhost:9090/dashboard/user/user-stats');
+        const activitiesResponse = await axios.get('http://localhost:9090/dashboard/user/user-activities');
+
+        setStats(statsResponse.data);
+        setRecentActivities(activitiesResponse.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const monthLabels = getMonthLabels();
 
   return (
@@ -31,29 +46,29 @@ function DashboardUser() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="My Meals Today"
-          value="2"
+          value={stats.mealsToday}
           icon={<Utensils className="text-green-500" />}
           chartData={{
             labels: monthLabels,
-            data: [1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2], // Sample data for meals
+            data: stats.mealsMonthlyData || [],
           }}
         />
         <StatCard
           title="My Assets"
-          value="3"
+          value={stats.assets}
           icon={<Box className="text-yellow-500" />}
           chartData={{
             labels: monthLabels,
-            data: [2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], // Sample data for assets
+            data: stats.assetsMonthlyData || [],
           }}
         />
         <StatCard
           title="My Maintenance Requests"
-          value="1"
+          value={stats.maintenanceRequests}
           icon={<Wrench className="text-red-500" />}
           chartData={{
             labels: monthLabels,
-            data: [0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1], // Sample data for maintenance requests
+            data: stats.maintenanceMonthlyData || [],
           }}
         />
       </div>
