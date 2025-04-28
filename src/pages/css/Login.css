@@ -2,7 +2,7 @@
 .login-page {
   display: flex;
   height: 100vh;
-  background-color: #0b1120;
+  background: linear-gradient(to right, #0b1120 50%, #1f1147 100%);
   color: white;
 }
 
