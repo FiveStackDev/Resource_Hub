@@ -12,7 +12,7 @@ import AdminUserLayout from "./layouts/AdminUserLayout/Layout";
 // Dashboard Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import DashboardUser from "./pages/User/DashboardUser";
-
+import DashboardAdminUser from "./pages/User(AdminUser)/DashboardAdminUser";
 // Admin Pages
 import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
@@ -87,8 +87,8 @@ function App() {
 
         {/*Admin User Routes* */}
         <Route path="/" element={<PrivateRoute element={<AdminUserLayout />} allowedRoles={["admin"]} />}>
-          <Route index element={<DashboardUser />} />
-          <Route path="AdminUser-DashboardUser" element={<DashboardUser />} />
+          <Route index element={<DashboardAdminUser />} />
+          <Route path="AdminUser-DashboardUser" element={<DashboardAdminUser />} />
           <Route path="AdminUser-mealcalander" element={<MealCalander />} />
           <Route path="AdminUser-assetrequest" element={<AssetRequestUsers />} />
           <Route path="AdminUser-DueAssets" element={<DueAssetUser />} />

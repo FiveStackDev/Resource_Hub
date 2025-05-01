@@ -1,43 +1,25 @@
-import { Utensils, Box, Wrench, CalendarDays, PackageCheck, Link } from 'lucide-react'; // Import any needed icons
+import { Utensils, Box, Wrench, CalendarDays, PackageCheck } from 'lucide-react';
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
-import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { getMonthLabels } from '../../utils/dateUtils'; // Import the utility function
-
-// Define actions for the user dashboard outside the component
-const customUserActions = [
-  {
-    icon: CalendarDays, // Example: Use a different icon
-    title: "View Meal Calendar",
-    description: "Check your booked meals",
-    iconColor: "text-blue-500", // Example: Different color
-  }
- ,
-  {
-    icon: PackageCheck, // Example: Another icon
-    title: "Check Due Assets",
-    description: "View assets nearing return date",
-    iconColor: "text-purple-500",
-    path: "/user/due-assets" // Example: New path
-  },
-  {
-    icon: Wrench,
-    title: "Report Issue",
-    description: "Submit maintenance request",
-    iconColor: "text-red-500",
-    path: "/user/maintenance"
-  }
-];
+import { getMonthLabels } from '../../utils/dateUtils';
+import { QuickActionsAdminUser } from '../../components/Dashboard/User/QuickActionsAdminUser';
 
 function DashboardUser() {
-  const [stats, setStats] = useState({ mealsToday: 0, assets: 0, maintenanceRequests: 0, mealsMonthlyData: [], assetsMonthlyData: [], maintenanceMonthlyData: [] });
+  const [stats, setStats] = useState({
+    mealsToday: 0,
+    assets: 0,
+    maintenanceRequests: 0,
+    mealsMonthlyData: [],
+    assetsMonthlyData: [],
+    maintenanceMonthlyData: [],
+  });
   const [recentActivities, setRecentActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const monthLabels = getMonthLabels();
-
 
   const fetchData = useCallback(async () => {
     const userId = localStorage.getItem('Userid');
@@ -45,8 +27,8 @@ function DashboardUser() {
     setError(null);
     try {
       const [statsResponse, activitiesResponse] = await Promise.all([
-        axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats/${userId}`), // Replace with actual user ID
-        axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities/${userId}`)
+        axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats/${userId}`),
+        axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities/${userId}`),
       ]);
 
       setStats(statsResponse.data);
@@ -72,7 +54,7 @@ function DashboardUser() {
   }
 
   return (
-    <div className="space-y-6 p-6"> {/* Added padding consistent with Admin Dashboard */}
+    <div className="space-y-6 p-6">
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
@@ -107,8 +89,8 @@ function DashboardUser() {
       {/* Recent Activities */}
       <RecentActivities activities={recentActivities} />
 
-      {/* Quick Actions - Pass the custom actions defined outside */}
-      <QuickActions actions={customUserActions} />
+      {/* Quick Actions - Render hardcoded cards */}
+      <QuickActionsAdminUser />
     </div>
   );
 }
