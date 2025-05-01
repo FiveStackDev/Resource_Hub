@@ -1,4 +1,4 @@
-import { Utensils, Box, Wrench, CalendarDays, PackageCheck } from 'lucide-react'; // Import any needed icons
+import { Utensils, Box, Wrench, CalendarDays, PackageCheck, Link } from 'lucide-react'; // Import any needed icons
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
@@ -13,8 +13,8 @@ const customUserActions = [
     title: "View Meal Calendar",
     description: "Check your booked meals",
     iconColor: "text-blue-500", // Example: Different color
-    path: "/user/mealcalander" // Updated path if needed
-  },
+  }
+ ,
   {
     icon: PackageCheck, // Example: Another icon
     title: "Check Due Assets",
@@ -38,13 +38,15 @@ function DashboardUser() {
   const [error, setError] = useState(null);
   const monthLabels = getMonthLabels();
 
+
   const fetchData = useCallback(async () => {
+    const userId = localStorage.getItem('Userid');
     setLoading(true);
     setError(null);
     try {
       const [statsResponse, activitiesResponse] = await Promise.all([
-        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats'),
-        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities')
+        axios.get(`http://localhost:9090/dashboarduser/stats/${userId}`), // Replace with actual user ID
+        axios.get(`http://localhost:9090/dashboarduser/activities/${userId}`)
       ]);
 
       setStats(statsResponse.data);
