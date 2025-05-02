@@ -21,7 +21,7 @@ import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
 import Notification from "./pages/Notification";
 import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
 import MealReport from "./pages/Admin/Reports/MealReport";
-import {Settings} from "./pages/Settings";
+import Settings from "./pages/Settings";
 import ReportHome from "./pages/Admin/Reports/ReportHome"
 import AssetReport from "./pages/Admin/Reports/AssetReport"
 import MaintenanceReport from "./pages/Admin/Reports/MaintenanceReport"
