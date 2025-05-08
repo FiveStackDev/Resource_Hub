@@ -307,7 +307,7 @@ export const MaintenanceTable = ({
                           <Tooltip title="Send Notification">
                             <Button
                               variant="outlined"
-                              color="primary"
+                              color="success"
                               startIcon={<SendHorizontal size={20} />}
                               onClick={() => handleOpenSendDialog(item)}
                             >
