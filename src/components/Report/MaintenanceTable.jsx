@@ -1,80 +1,148 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import html2pdf from "html2pdf.js";
-import { BASE_URLS } from '../../services/api/config';
+import { BASE_URLS } from "../../services/api/config";
 import { toast } from "react-toastify";
+import SchedulePopup from "./SchedulePopup";
 
-// Component to display meal events table
 const MaintenanceTable = () => {
-  const [Maintenance, setmaintenance] = useState([""]);
+  const [maintenanceData, setMaintenanceData] = useState([]);
+  const [selectedPriority, setSelectedPriority] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [openSchedulePopup, setOpenSchedulePopup] = useState(false);
 
-  // Fetch data from the API
   useEffect(() => {
     fetch(`${BASE_URLS.maintenance}/details`)
       .then((response) => response.json())
-      .then((data) => setmaintenance(data))
-      .catch((error) => console.error("Error fetching maintenance:", error));
+      .then((data) => setMaintenanceData(data))
+      .catch((error) => console.error("Error fetching maintenance data:", error));
   }, []);
 
-  // Function to download the table as PDF
   const handleDownloadPDF = () => {
     try {
-      const element = document.getElementById("maintenance-table"); // Get the content to convert to PDF
+      const element = document.getElementById("maintenance-table");
       const options = {
-        filename: "maintenances.pdf", // Set the filename of the PDF
-        image: { type: "jpeg", quality: 0.98 }, // Set image quality
-        html2canvas: { scale: 2 }, // Set the scale for the canvas
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }, // Set PDF size and orientation
+        margin: 1,
+        filename: "MaintenanceReport.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
       };
-      html2pdf().from(element).set(options).save(); // Convert and download the PDF
-      toast.success("maintenances report downloaded successfully!");
+      html2pdf().from(element).set(options).save();
+      toast.success("Maintenance report downloaded successfully!");
     } catch (error) {
-      console.error("Error downloading maintenances report:", error);
-      toast.error("Failed to download maintenances report.");
+      console.error("Error downloading maintenance report:", error);
+      toast.error("Failed to download maintenance report.");
     }
   };
 
+  const filteredData = maintenanceData.filter((item) => {
+    return (
+      (selectedPriority === "" || item.priorityLevel === selectedPriority) &&
+      (selectedStatus === "" || item.status === selectedStatus)
+    );
+  });
+
   return (
     <div>
-     
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleDownloadPDF}
-        style={{ marginBottom: 20, float: "right" }}
-      >
-        Download PDF
-      </Button>
+      <div style={{ display: "flex", gap: "15px", marginBottom: 20 }}>
+        {/* Priority Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Priority</InputLabel>
+          <Select
+            value={selectedPriority}
+            onChange={(e) => setSelectedPriority(e.target.value)}
+            label="Priority"
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="High">High</MenuItem>
+            <MenuItem value="Medium">Medium</MenuItem>
+            <MenuItem value="Low">Low</MenuItem>
+          </Select>
+        </FormControl>
 
-      {/* Table Container */}
+        {/* Status Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            label="Status"
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="Pending">Pending</MenuItem>
+            <MenuItem value="In Progress">In Progress</MenuItem>
+            <MenuItem value="Completed">Completed</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* Download PDF Button */}
+        <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
+          Download PDF
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenSchedulePopup(true)}
+        >
+          Schedule PDF
+        </Button>
+      </div>
+
       <TableContainer component={Paper} id="maintenance-table">
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Maintenance ID</TableCell>
-              <TableCell>User ID</TableCell>
-              <TableCell>User Name</TableCell>
-              <TableCell >Description</TableCell>
-              <TableCell>Priority Level</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Submitted Date</TableCell>
+              <TableCell align="center">Maintenance ID</TableCell>
+              <TableCell align="center">User ID</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Priority Level</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Request Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Maintenance.map((maintenance, index) => (
-              <TableRow key={index}>
-                <TableCell>{maintenance.maintenance_id}</TableCell>
-                <TableCell>{maintenance.user_id}</TableCell>
-                <TableCell>{maintenance.username}</TableCell>
-                <TableCell style={{ maxWidth: '200px' }}>{maintenance.description}</TableCell>
-                <TableCell>{maintenance.priorityLevel}</TableCell>
-                <TableCell>{maintenance.status}</TableCell>
-                <TableCell>{maintenance.submitted_date}</TableCell>
+            {filteredData.length > 0 ? (
+              filteredData.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell align="center">{item.id}</TableCell>
+                  <TableCell align="center">{item.userId}</TableCell>
+                  <TableCell align="center">{item.description}</TableCell>
+                  <TableCell align="center">{item.priorityLevel}</TableCell>
+                  <TableCell align="center">{item.status}</TableCell>
+                  <TableCell align="center">{item.requestDate}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell align="center" colSpan={6}>
+                  No data available.
+                </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {openSchedulePopup && (
+        <SchedulePopup
+          onClose={() => setOpenSchedulePopup(false)}
+          table="Maintenance"
+        />
+      )}
     </div>
   );
 };
